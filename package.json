@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Cimlah/Get-IP-API/issues"
   },
-  "homepage": "https://github.com/Cimlah/Get-IP-API#readme"
+  "homepage": "https://github.com/Cimlah/Get-IP-API#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
