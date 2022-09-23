@@ -1,0 +1,25 @@
+{
+  "name": "get-ip-api",
+  "version": "0.0.1",
+  "description": "An API, which gets clients' IP addresses and stores them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cimlah/Get-IP-API.git"
+  },
+  "keywords": [
+    "API",
+    "IP",
+    "address",
+    "cliets-ip-address"
+  ],
+  "author": "Michał Stolarczyk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cimlah/Get-IP-API/issues"
+  },
+  "homepage": "https://github.com/Cimlah/Get-IP-API#readme"
+}
