@@ -3,7 +3,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get('/', function (req, res) {
-    let ip = req.ip
+    let ip = req.headers['x-forwarded-for'] || req.ip
 
     res.set('Content-Type', 'application/json')
     res.send({
