@@ -49,6 +49,21 @@ app.get('/ip/:ip', async function (req, res) {
     }, null, 4))
 })
 
+app.get('/stats', async function (req, res) {
+    const ips = await redisClient.keys('*')
+    let hitsCount = 0
+    for(let i = 0; i < ips.length; i++) {
+        hitsCount += parseInt(await redisClient.hGet(ips[i], 'times-hit'))
+    }
+    const uniqueHitsCount = ips.length
+
+    res.set('Content-Type', 'application/json')
+    res.send(JSON.stringify({
+        'total-hits': hitsCount,
+        'unique-hits': uniqueHitsCount,
+        'unique-hits-percent': (uniqueHitsCount/hitsCount) * 100 + '%'
+    }, null, 4))
+})
 app.listen(port, function (err) {
     if(err) {console.log(err)}
 
