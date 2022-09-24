@@ -9,7 +9,7 @@ const redisConnect = async () => {redisClient.connect()}; redisConnect();
 
 app.use(express.json())
 
-app.get('/', async function (req, res) {
+app.get('/hit', async function (req, res) {
     let ip = req.headers['x-forwarded-for'] || req.ip
 
     if((await redisClient.keys(ip)).length == 0) {
