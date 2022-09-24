@@ -25,6 +25,30 @@ app.get('/', async function (req, res) {
     }, null, 4))
 })
 
+app.get('/ips', async function (req, res) {
+    const hashes = await redisClient.keys('*')
+    const ipsAndHits = []
+    for(let i = 0; i < hashes.length; i++) {
+        ipsAndHits.push({
+            'ip': await redisClient.hGet(hashes[i], 'value'),
+            'times-hit': await redisClient.hGet(hashes[i], 'times-hit'),
+        })
+    }
+    
+    res.set('Content-Type', 'application/json')
+    res.send(JSON.stringify(ipsAndHits, null, 4))
+})
+
+app.get('/ip/:ip', async function (req, res) {
+    const ip = req.params.ip
+
+    res.set('Content-Type', 'application/json')
+    res.send(JSON.stringify({
+        'ip': await redisClient.hGet(ip, 'value'),
+        'times-hit': await redisClient.hGet(ip, 'times-hit')
+    }, null, 4))
+})
+
 app.listen(port, function (err) {
     if(err) {console.log(err)}
 
