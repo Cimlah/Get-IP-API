@@ -19,10 +19,10 @@ app.get('/', async function (req, res) {
     }
     
     res.set('Content-Type', 'application/json')
-    res.send({
+    res.send(JSON.stringify({
         'your-ip': ip,
         'times-hit': await redisClient.hGet(ip, 'times-hit')
-    })
+    }, null, 4))
 })
 
 app.listen(port, function (err) {
