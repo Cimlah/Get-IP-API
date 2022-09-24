@@ -7,6 +7,8 @@ const redisClient = redis.createClient()
 redisClient.on('error', (err) => {console.log('Redis ' + err)})
 const redisConnect = async () => {redisClient.connect()}; redisConnect();
 
+app.use(express.json())
+
 app.get('/', async function (req, res) {
     let ip = req.headers['x-forwarded-for'] || req.ip
 
@@ -64,6 +66,24 @@ app.get('/stats', async function (req, res) {
         'unique-hits-percent': (uniqueHitsCount/hitsCount) * 100 + '%'
     }, null, 4))
 })
+
+app.post('/load', async function (req, res) {
+    const dataFromJson = require(req.body['path'])
+    let ips = []
+    let timesHit = []
+    dataFromJson.forEach((data) => {
+        ips.push(data.ip)
+        timesHit.push(data['times-hit'])
+    });
+
+    for(let i = 0; i < ips.length; i++) {
+        redisClient.hSet(ips[i], 'value', ips[i])
+        redisClient.hSet(ips[i], 'times-hit', timesHit[i])
+    }
+
+    res.send('Data loaded')
+})
+
 app.listen(port, function (err) {
     if(err) {console.log(err)}
 
